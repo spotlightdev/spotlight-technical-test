@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center mb-5">
+    <h1 class="display-4">Spotlight Prime Generator</h1>
+</div>
+
+<div class="row mb-5">
+    <div class="col-sm">
+        <div class="input-group">
+            <input id="numOfPrimes" type="number" class="form-control form-control-lg" placeholder="Number of primes to fetch">
+            <div class="input-group-append">
+                <button id="get-primes" class="btn btn-info" type="button">Get Primes!!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm">
+        <div class="card">
+            <div class="card-header">Results</div>
+            <ul id="prime-list" class="list-group list-group-flush"></ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        //Make this better if you like! It's functional, but old schooool
+
+        $(function() {
+            $('#get-primes').on('click', () => {
+                const num = $('#numOfPrimes').val();
+
+                $.getJSON(`api/prime/getprimes?numberOfPrimes=${num}`, (data, status, xhr) => {
+
+                    const primeList = $('#prime-list');
+
+                    primeList.empty();
+
+                    data.forEach(val => {
+                        primeList.append(`<li class="list-group-item">${val}</li>`);
+                    });
+                });
+            });
+        });
+
+    </script>
+}
