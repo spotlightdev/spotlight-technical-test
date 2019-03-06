@@ -8,11 +8,16 @@ You will need
 
 ## To Do
 
-1. Complete the method ```PrimeService.GetPrimes```
-2. Complete the SimpleInMemoryCache and;
+1. Fork this repo to your account
+2. Complete the method ```PrimeService.GetPrimes```
+3. Complete the SimpleInMemoryCache and;
     1. Add the cache to the ASP.NET Services Collection
     2. Cache the result of the call to ```GetPrimes```
     3. When the api call to `/getprimes` is called with the same argument, get the value from the cache instead of calculating
-3. Add a response header to the json to indicate it was from the cache
+4. Add a response header to the json to indicate it was from the cache
     1. Display to the user, that the value was from the cache, and not calculated
-4. Bonus credit, update the "hacky" jQuery, to something nicer
+5. Bonus credit, update the "hacky" jQuery, to something nicer
+
+## On Completion
+
+1. Create a pull request with your changes into a named branch
