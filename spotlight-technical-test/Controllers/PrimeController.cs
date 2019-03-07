@@ -11,17 +11,29 @@ namespace spotlight_technical_test.Controllers
     public sealed class PrimeController : ControllerBase
     {
         private readonly IPrimeService _primeService;
+        private readonly ICache _cache;
 
-        public PrimeController(IPrimeService primeService)
+        public PrimeController(IPrimeService primeService, ICache cache)
         {
             _primeService = primeService;
+            _cache = cache;
         }
 
         [HttpGet]
         [Route("GetPrimes")]
         public async Task<IEnumerable<long>> GetPrimes([FromQuery]long numberOfPrimes)
         {
-            return await _primeService.GetPrimesAsync(numberOfPrimes);
+            if (!_cache.TryGetValue(numberOfPrimes, out object result))
+            {
+                result = await _primeService.GetPrimesAsync(numberOfPrimes);
+                _cache.Add(numberOfPrimes, result);
+            }
+            else
+            {
+                Response.Headers.Add("ReturnedFromCache", "True");
+            }
+
+            return (IEnumerable<long>)result;
         }
 
     }
