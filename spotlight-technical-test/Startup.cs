@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using spotlight_technical_test.Caching;
 using spotlight_technical_test.Controllers;
 using spotlight_technical_test.Services;
 using spotlight_technical_test.Services.Impl;
@@ -23,8 +24,7 @@ namespace spotlight_technical_test
         {
             services.AddTransient<IPrimeService, PrimeService>();
 
-            //TODO Add cache
-            //services.AddSingleton<ICache, SimpleInMemoryCache>();
+            services.AddSingleton<ICache, SimpleInMemoryCache>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

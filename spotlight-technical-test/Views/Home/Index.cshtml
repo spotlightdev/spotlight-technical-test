@@ -20,7 +20,7 @@
 <div class="row">
     <div class="col-sm">
         <div class="card">
-            <div class="card-header">Results</div>
+            <div id="prime-list-header" class="card-header prime-list-header">Results <div id="is-from-cache-text" class="cacheText">- retrieved from cache</div></div>
             <ul id="prime-list" class="list-group list-group-flush"></ul>
         </div>
     </div>
@@ -30,21 +30,27 @@
     <script type="text/javascript">
 
         //Make this better if you like! It's functional, but old schooool
-
-        $(function() {
+        $(function () {
             $('#get-primes').on('click', () => {
                 const num = $('#numOfPrimes').val();
+                const primeList = $('#prime-list');
+                const isFromCacheText = $('#is-from-cache-text');
 
-                $.getJSON(`api/prime/getprimes?numberOfPrimes=${num}`, (data, status, xhr) => {
-
-                    const primeList = $('#prime-list');
-
-                    primeList.empty();
-
-                    data.forEach(val => {
-                        primeList.append(`<li class="list-group-item">${val}</li>`);
+                fetch(`api/prime/getprimes?numberOfPrimes=${num}`)
+                    .then(response => {
+                        if (response.headers.has('ReturnedFromCache')) {
+                            isFromCacheText.show();
+                        }
+                        else {
+                            isFromCacheText.hide();
+                        }
+                        return response.json();
+                    }).then(function (myJson) {
+                        primeList.empty();
+                        myJson.forEach(val => {
+                            primeList.append(`<li class="list-group-item">${val}</li>`);
+                        });
                     });
-                });
             });
         });
 
